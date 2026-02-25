@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ماشین حساب ATR</title>
+<style>
+  body {
+    background-color: #6a0dad;
+    font-family: Tahoma, sans-serif;
+    margin: 0; padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    direction: rtl;
+    color: #333;
+  }
+  .container {
+    background: white;
+    border-radius: 12px;
+    padding: 30px 40px;
+    width: 360px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  }
+  h2 {
+    color: #6a0dad;
+    text-align: center;
+    margin-bottom: 22px;
+  }
+  label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    display: block;
+  }
+  input[type=number] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #6a0dad;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  input[type=number]:focus {
+    border-color: #4b0082;
+  }
+  button {
+    width: 100%;
+    background-color: #6a0dad;
+    color: white;
+    border: none;
+    padding: 14px 0;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #4b0082;
+  }
+  .result {
+    margin-top: 25px;
+    background: #f7f7f7;
+    padding: 18px;
+    border-radius: 8px;
+    font-size: 17px;
+    color: #222;
+    min-height: 50px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>ماشین حساب ATR</h2>
+
+  <label for="high">بیشترین قیمت (High):</label>
+  <input id="high" type="number" placeholder="مثلاً 25000" />
+
+  <label for="low">کمترین قیمت (Low):</label>
+  <input id="low" type="number" placeholder="مثلاً 18000" />
+
+  <label for="close">آخرین قیمت بسته شده (Close):</label>
+  <input id="close" type="number" placeholder="مثلاً 18300" />
+
+  <button onclick="calculateATR()">محاسبه کن</button>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+  function calculateATR() {
+    const high = parseFloat(document.getElementById('high').value);
+    const low = parseFloat(document.getElementById('low').value);
+    const close = parseFloat(document.getElementById('close').value);
+    const result = document.getElementById('result');
+
+    if (isNaN(high) || isNaN(low) || isNaN(close)) {
+      result.style.color = 'red';
+      result.textContent = "لطفاً همه فیلدها را با عدد معتبر پر کنید.";
+      return;
+    }
+    if (low > high) {
+      result.style.color = 'red';
+      result.textContent = "کمترین قیمت نمی‌تواند بیشتر از بیشترین قیمت باشد.";
+      return;
+    }
+
+    const tr1 = high - low;
+    const tr2 = Math.abs(high - close);
+    const tr3 = Math.abs(low - close);
+
+    const atr = Math.max(tr1, tr2, tr3).toFixed(2);
+
+    result.style.color = '#222';
+    result.innerHTML = `مقدار ATR برابر است با: <strong>${atr}</strong>`;
+  }
+</script>
+
+</body>
+</html>
+
+ 
